@@ -36,10 +36,10 @@ class MyApp extends StatelessWidget {
         providers: [
           BlocProvider(
               create: (context) =>
-                  BidBloc(bidRepository: bidRepo)..add(HighestBidLoad())),
+                  ItemBloc(itemRepository: itemRepo)..add(ItemLoad())),
           BlocProvider(
               create: (context) =>
-                  ItemBloc(itemRepository: itemRepo)..add(ItemLoad())),
+                  BidBloc(bidRepository: bidRepo)..add(HighestBidLoad())),
         ],
         child: MaterialApp(
           title: 'Flutter Demo',

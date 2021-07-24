@@ -7,6 +7,7 @@ import 'package:shopping_cart/widgets/bottomSheet.dart';
 import 'package:shopping_cart/widgets/category.dart';
 import 'package:shopping_cart/widgets/customFloatingActionButton.dart';
 import 'package:shopping_cart/widgets/itemDetail.dart';
+import 'package:shopping_cart/widgets/shimmer.dart';
 
 class BidDetailScreen extends StatelessWidget {
   BidDetailScreen({Key? key}) : super(key: key);
@@ -29,7 +30,7 @@ class BidDetailScreen extends StatelessWidget {
                     }
                     if (state is ItemInitial) {
                       return Center(
-                        child: CircularProgressIndicator(),
+                        child: ItemLoadingShimmer(),
                       );
                     }
                     if (state is ItemLoadedState) {
@@ -65,7 +66,7 @@ class BidDetailScreen extends StatelessWidget {
                               Positioned(
                                 top: 20,
                                 left: 15,
-                                child: Category(),
+                                child: Category(text: "Art"),
                               ),
                               Positioned(
                                 left: 0,
@@ -132,9 +133,8 @@ class BidDetailScreen extends StatelessWidget {
                     return Text('${state.message}');
                   }
                   if (state is BidInitial) {
-                    return Center(
-                      child: CircularProgressIndicator(),
-                    );
+                    return 
+                      BidLoadingShimmer();
                   }
                   if (state is HighestBidLoadedState) {
                     final bid = state.bid;

@@ -33,6 +33,7 @@ dependencies:
   equatable: ^2.0.3
   flutter_bloc: ^7.0.1
   flutter_countdown_timer: ^4.1.0
+  shimmer: ^2.0.0
 
 dev_dependencies:
   flutter_test:

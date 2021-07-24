@@ -15,7 +15,7 @@ class CustomBottomSheet extends StatefulWidget {
 
 class _CustomBottomSheetState extends State<CustomBottomSheet> {
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
-  final Map<String, dynamic> item = {};
+  final Map<String, dynamic> bid = {};
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -72,7 +72,7 @@ class _CustomBottomSheetState extends State<CustomBottomSheet> {
                   },
                   onSaved: (value) {
                     setState(() {
-                      item["name"] = value;
+                      bid["name"] = value;
                     });
                   },
                 ),
@@ -101,7 +101,7 @@ class _CustomBottomSheetState extends State<CustomBottomSheet> {
                   },
                   onSaved: (value) {
                     setState(() {
-                      item["amount"] = value;
+                      bid["amount"] = value;
                     });
                   },
                 ),
@@ -110,12 +110,12 @@ class _CustomBottomSheetState extends State<CustomBottomSheet> {
                 ),
                 OutlinedButton(
                   onPressed: () async {
-                    if (formKey.currentState!.validate()) {
-                      final ImagePicker _picker = ImagePicker();
-                      var file =
-                          await _picker.pickImage(source: ImageSource.gallery);
-                      print(file);
-                    }
+                    final ImagePicker _picker = ImagePicker();
+                    var file =
+                        await _picker.pickImage(source: ImageSource.gallery);
+                    setState(() {
+                      bid["avatar"] = file?.path;
+                    });
                   },
                   style: ButtonStyle(
                     fixedSize: MaterialStateProperty.all(
@@ -125,32 +125,22 @@ class _CustomBottomSheetState extends State<CustomBottomSheet> {
                       Colors.green,
                     ),
                   ),
-                  child: GestureDetector(
-                    onTap: () {
-                      final ImagePicker _picker = ImagePicker();
-                      setState(() async {
-                        var file = await _picker.pickImage(
-                            source: ImageSource.gallery);
-                        item["avatar"] = file?.path;
-                      });
-                    },
-                    child: Row(
-                      children: [
-                        Icon(
-                          Icons.upload,
-                          size: 24,
+                  child: Row(
+                    children: [
+                      Icon(
+                        Icons.upload,
+                        size: 24,
+                      ),
+                      SizedBox(
+                        width: 10,
+                      ),
+                      Text(
+                        "Upload image",
+                        style: TextStyle(
+                          fontSize: 18,
                         ),
-                        SizedBox(
-                          width: 10,
-                        ),
-                        Text(
-                          "Upload image",
-                          style: TextStyle(
-                            fontSize: 18,
-                          ),
-                        ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
                 ),
                 TextButton(
@@ -172,16 +162,18 @@ class _CustomBottomSheetState extends State<CustomBottomSheet> {
                     ),
                   ),
                   onPressed: () async {
-                    final form = formKey.currentState;
-                    form?.save();
-                    final newBid = Bid(bidder: {
-                      "name": item["name"],
-                      "avatar": item["avatar"],
-                    }, amount: int.parse(item["amount"]));
+                    if (formKey.currentState!.validate()) {
+                      final form = formKey.currentState;
+                      form?.save();
+                      final newBid = Bid(bidder: {
+                        "name": bid["name"],
+                        "avatar": bid["avatar"],
+                      }, amount: double.parse(bid["amount"]));
 
-                    BlocProvider.of<BidBloc>(context)
-                        .add(PlaceBid(bid: newBid, itemID: this.widget.itemID));
-                    Navigator.pop(context);
+                      BlocProvider.of<BidBloc>(context).add(
+                          PlaceBid(bid: newBid, itemID: this.widget.itemID));
+                      Navigator.pop(context);
+                    }
                   },
                 ),
               ],

@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 
 class Category extends StatelessWidget {
-  const Category({Key? key}) : super(key: key);
+  final String text;
+
+  const Category({Key? key, required this.text}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -13,7 +15,7 @@ class Category extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 5),
         child: Text(
-          "Art",
+          text,
           style: TextStyle(color: Colors.white),
         ),
       ),

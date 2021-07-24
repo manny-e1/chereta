@@ -20,6 +20,7 @@ class BidDataProvider {
     request.fields.addAll(body);
     final response = await request.send();
     if (response.statusCode == 201) {
+      print(response.toString());
       return response.toString();
     } else {
       throw Exception(response);
